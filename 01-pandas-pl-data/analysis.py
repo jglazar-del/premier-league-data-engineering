@@ -17,4 +17,19 @@ podsumowanie = home_team_goals.merge(mean_goals, on='HomeTeam')
 
 pl_data_total = pl_data.merge(podsumowanie, on='HomeTeam')
 
+
+def ftr_type(row):
+    roznica = row['FTHG'] - row['FTAG']
+
+    if roznica >= 3:
+        return "high win"
+    elif roznica > 0:
+        return "low win"
+    elif roznica == 0:
+        return "draw"
+    elif roznica < 0:
+        return "AwayTeam win"
+
+pl_data_total['match_type'] = pl_data_total.apply(ftr_type, axis=1)
+
 print(pl_data_total)
